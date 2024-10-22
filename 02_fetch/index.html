@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="getDataButton" onclick="getData()">get data</button>
+    <div id="names"></div>
+
+    <script>
+        function getData(){
+            const button = document.getElementById('getDataButton');
+            button.disabled = true;
+
+            let namesArray = []
+            document.getElementById('names').innerHTML = ''
+            fetch('https://fakerapi.it/api/v1/persons')
+                .then((response)=>{
+                    return response.json()
+                })
+                .then((value)=>{
+                    namesArray= value.data
+                    namesArray.forEach((item)=>{
+                    let listItem = document.createElement('li')
+                    listItem.textContent = item.firstname
+
+                    let Div = document.getElementById('names')
+                    Div.appendChild(listItem)
+                    })
+                })
+                .finally(() => {
+                    // Re-enable the button after processing
+                    button.disabled = false;
+                });
+        }
+    </script>
+</body>
+
+</html>
